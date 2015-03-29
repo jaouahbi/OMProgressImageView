@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35338C511AC7F9C600D332D9 /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35338C501AC7F9C600D332D9 /* CGSizeExtension.swift */; };
 		35AF2D7B1AC74E1B002D7E67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AF2D7A1AC74E1B002D7E67 /* AppDelegate.swift */; };
 		35AF2D7D1AC74E1B002D7E67 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AF2D7C1AC74E1B002D7E67 /* ViewController.swift */; };
 		35AF2D801AC74E1B002D7E67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35AF2D7E1AC74E1B002D7E67 /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		35338C501AC7F9C600D332D9 /* CGSizeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
 		35AF2D751AC74E1B002D7E67 /* ExampleSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35AF2D791AC74E1B002D7E67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35AF2D7A1AC74E1B002D7E67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 		35AF2D9A1AC74E60002D7E67 /* OMProgressImageView */ = {
 			isa = PBXGroup;
 			children = (
+				35338C501AC7F9C600D332D9 /* CGSizeExtension.swift */,
 				35AF2D9B1AC74E60002D7E67 /* OMLayer.swift */,
 				35AF2D9C1AC74E60002D7E67 /* OMProgressImageLayer.swift */,
 				35AF2D9D1AC74E60002D7E67 /* OMProgressImageView.swift */,
@@ -231,6 +234,7 @@
 			files = (
 				35AF2D7D1AC74E1B002D7E67 /* ViewController.swift in Sources */,
 				35AF2D7B1AC74E1B002D7E67 /* AppDelegate.swift in Sources */,
+				35338C511AC7F9C600D332D9 /* CGSizeExtension.swift in Sources */,
 				35AF2DA11AC74E60002D7E67 /* OMProgressImageView.swift in Sources */,
 				35AF2DA01AC74E60002D7E67 /* OMProgressImageLayer.swift in Sources */,
 				35AF2D9F1AC74E60002D7E67 /* OMLayer.swift in Sources */,

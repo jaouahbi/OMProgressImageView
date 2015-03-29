@@ -4,10 +4,17 @@
 //  Created by Jorge Ouahbi on 26/3/15.
 //  Copyright (c) 2015 Jorge Ouahbi. All rights reserved.
 //
+//  0.1 (29-03-2015)
+//      Added radial progress, grayscale mode and direction,
+//      showing/hiding and update shadow copy layer options.
+//      Now render the image in context
+//      Update the layer when beginRadians is changed if the type is Circular
+//      Sets OMProgressType.OMCircular as default type
+//      Fixed the alpha channel for the grayscaled image
 
 #if os(iOS)
     import UIKit
-#elseif os(OSX)
+    #elseif os(OSX)
     import AppKit
 #endif
 
@@ -17,6 +24,7 @@ public enum OMProgressType : Int
     case OMHorizontal
     case OMVertical
     case OMCircular
+    case OMRadial
 }
 
 private struct OMProgressImageLayerProperties {
@@ -25,35 +33,61 @@ private struct OMProgressImageLayerProperties {
 
 class OMProgressImageLayer: OMLayer
 {
+    // progress showing image or hiding
+    
+    var progressShowing:Bool = true
+        {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    // progress direction
+    
+    var clockwise:Bool = true
+        {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     var image:UIImage?       = nil
-    {
+        {
         didSet {
             setNeedsDisplay()
         }
     }
     var progress: Double     = 0.0
-    {
+        {
         didSet {
             setNeedsDisplay()
         }
     }
+    
+    // -90 degrees
     
     var beginRadians: Double = -M_PI_2
+        {
+        didSet {
+            if(self.type == .OMCircular) {
+                setNeedsDisplay()
+            }
+        }
+    }
     
-    var type:OMProgressType  = OMProgressType.OMVertical
-    {
+    var type:OMProgressType  = OMProgressType.OMCircular
+        {
         didSet {
             setNeedsDisplay()
         }
     }
-
-    var grayScale:Bool = false
-    {
+    
+    var grayScale:Bool = true
+        {
         didSet {
             setNeedsDisplay()
         }
     }
-
+    
     
     func animateProgress(fromValue:Double,toValue:Double,beginTime:NSTimeInterval,duration:NSTimeInterval, delegate:AnyObject?)
     {
@@ -78,11 +112,13 @@ class OMProgressImageLayer: OMLayer
     override init!(layer: AnyObject!) {
         super.init(layer: layer)
         if let other = layer as? OMProgressImageLayer {
-            self.progress       = other.progress
-            self.image          = other.image
-            self.type           = other.type
-            self.beginRadians   = other.beginRadians
-            self.grayScale      = other.grayScale
+            self.progress        = other.progress
+            self.image           = other.image
+            self.type            = other.type
+            self.beginRadians    = other.beginRadians
+            self.grayScale       = other.grayScale
+            self.progressShowing = other.progressShowing
+            self.clockwise       = other.clockwise
         }
     }
     
@@ -110,9 +146,7 @@ class OMProgressImageLayer: OMLayer
         return super.actionForKey(event)
     }
     
-    override func display() {
-        
-        super.display()
+    override func drawInContext(context: CGContext!) {
         
         var newImage:UIImage? = nil
         var newProgress:Double = self.progress
@@ -121,32 +155,56 @@ class OMProgressImageLayer: OMLayer
             newProgress = presentationLayer.progress
         }
         
-        
         if(newProgress > 0)
         {
             switch(self.type)
             {
+            case .OMRadial:
+                
+                let radius = image!.size.max() * CGFloat(newProgress)
+                
+                let center = image!.size.center()
+                
+                let path = UIBezierPath(arcCenter: center,
+                    radius: radius ,
+                    startAngle: 0,
+                    endAngle: CGFloat(M_PI * 2.0),
+                    clockwise: true)
+                
+                path.addLineToPoint(center)
+                path.closePath()
+                
+                newImage = self.image!.maskImage(path)
+                break
+                
+                
             case .OMCircular:
                 
-                let radius = max(self.image!.size.width,self.image!.size.height)//* CGFloat(newProgress)
-            
-                let center = CGPoint(x:self.image!.size.width * 0.5,y:self.image!.size.height * 0.5)
-            
+                let radius = image!.size.max()
+                
+                let center = image!.size.center()
+                
                 let startAngle = beginRadians
-            
-                let endAngle  =  Double(M_PI * 2.0 * newProgress + beginRadians)
-            
+                
+                let endAngle:Double
+                
+                if(self.clockwise == false){
+                    endAngle  =  Double(M_PI * 2.0 * (1.0 - newProgress) + beginRadians)
+                } else {
+                    endAngle  =  Double(M_PI * 2.0 * newProgress + beginRadians)
+                }
+                
                 let path = UIBezierPath(arcCenter: center,
                     radius: radius ,
                     startAngle: CGFloat(startAngle),
                     endAngle: CGFloat(endAngle),
-                    clockwise: true)
-        
+                    clockwise: self.progressShowing)
+                
                 path.addLineToPoint(center)
                 path.closePath()
-            
+                
                 newImage = self.image!.maskImage(path)
-
+                
                 break;
                 
             case .OMVertical:
@@ -161,20 +219,27 @@ class OMProgressImageLayer: OMLayer
             case .OMHorizontal:
                 
                 let newWidth = Double(self.bounds.size.width) * newProgress
-          
+                
                 let path = UIBezierPath(rect: CGRect(x:0,y:0,width: CGFloat(newWidth),height:self.bounds.size.height))
                 
                 newImage = self.image!.maskImage(path)
+                
                 break;
             }
         }
         
+        // Core Text Coordinate System and Core Graphics are OSX style
+        
+        self.flipContextIfNeed(context)
         
         if(newImage != nil) {
+            
+            let rect = CGRectMake(0, 0, newImage!.size.width, newImage!.size.height);
+            
             if ( grayScale ){
-                self.contents =  self.image?.grayScaleImage().mergeWithImage(newImage!).CGImage
+                CGContextDrawImage(context, rect, self.image?.grayScaleWithAlphaImage().blendImage(newImage!).CGImage)
             }else{
-                self.contents =  newImage!.CGImage
+                CGContextDrawImage(context, rect, newImage!.CGImage)
             }
         }
         

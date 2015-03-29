@@ -4,22 +4,71 @@
 //  Created by Jorge Ouahbi on 28/3/15.
 //  Copyright (c) 2015 Jorge Ouahbi. All rights reserved.
 //
+//  0.1 Added alpha parameter to blendImage func (29-03-2015)
+//      Added grayScaleWithAlphaImage()
+//
 
 import UIKit
 
 extension UIImage
 {
-    
-    func mergeWithImage(otherImage:UIImage) -> UIImage
+    func rotatedImage(rads:CGFloat) -> UIImage
     {
-        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale);
-    
-        self.drawAtPoint(CGPointZero)
-        otherImage.drawAtPoint(CGPointZero, blendMode:kCGBlendModeNormal, alpha:1.0)
-    
+        // Create the bitmap context
+        UIGraphicsBeginImageContextWithOptions(self.size,false,scale);
+        
+        let bitmap = UIGraphicsGetCurrentContext()
+        
+        // Move the origin to the middle of the image so we will rotate and scale around the center.
+        CGContextTranslateCTM(bitmap, size.width/2, size.height/2);
+        
+        //   // Rotate the image context
+        CGContextRotateCTM(bitmap, rads);
+        
+        // Now, draw the rotated/scaled image into the context
+        CGContextScaleCTM(bitmap, 1.0, -1.0);
+        CGContextDrawImage(bitmap, CGRectMake(-size.width / 2, -size.height / 2, size.width, size.height), self.CGImage);
+        
         let newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
+        return newImage;
+        
+    }
     
+    
+    // Transform the image in grayscale.
+    func grayScaleWithAlphaImage() -> UIImage
+    {
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale);
+        let imageRect = CGRectMake(0.0, 0.0, self.size.width, self.size.height);
+        
+        let ctx = UIGraphicsGetCurrentContext();
+        
+        // Draw a white background
+        CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 1.0);
+        CGContextFillRect(ctx, imageRect);
+        
+        // Draw the luminosity on top of the white background to get grayscale
+        self.drawInRect(imageRect,blendMode:kCGBlendModeLuminosity,alpha:1.0);
+        
+        // Apply the source image's alpha
+        self.drawInRect(imageRect,blendMode:kCGBlendModeDestinationIn,alpha:1.0);
+        
+        let grayscaleImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return grayscaleImage
+    }
+    
+    func blendImage(other:UIImage, alpha:CGFloat = 1.0) -> UIImage
+    {
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale);
+        
+        self.drawAtPoint(CGPointZero)
+        other.drawAtPoint(CGPointZero, blendMode:kCGBlendModeNormal, alpha:alpha)
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
         return newImage
     }
     
@@ -30,18 +79,24 @@ extension UIImage
         let width = UInt(self.size.width)
         let height = UInt(self.size.height)
         let context = CGBitmapContextCreate(nil, width, height, 8, 0, colorSpace, .allZeros);
+        
+        CGContextClearRect(context, imageRect)
+        
         CGContextDrawImage(context, imageRect, self.CGImage!);
         
         let imageRef = CGBitmapContextCreateImage(context);
-
+        
         return UIImage(CGImage: imageRef)!
     }
     
     func maskImage(path:UIBezierPath ) -> UIImage
     {
         UIGraphicsBeginImageContextWithOptions(self.size, false, 0)
+        
         path.addClip()
         self.drawAtPoint(CGPointZero)
+        
+        
         let maskedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return maskedImage;
@@ -141,5 +196,5 @@ extension UIImage
             transpose:drawTransposed,
             interpolationQuality:interpolationQuality);
     }
-   
+    
 }
