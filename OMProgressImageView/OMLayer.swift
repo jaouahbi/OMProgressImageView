@@ -36,14 +36,26 @@ class OMLayer: CALayer {
     /// Radians
     
     var angleOrientation:Double = 0.0
-        {
+    {
         didSet {
             
-            let affineTransform = CGAffineTransformMakeRotation(CGFloat(angleOrientation))
-            
-            setAffineTransform(affineTransform)
-            
-            setNeedsDisplay()
+            if(angleOrientation != 0.0) {
+                
+                var affineTransform = CGAffineTransformMakeRotation(CGFloat(angleOrientation))
+                
+                //                if(UIDevice.currentDevice().orientation == UIDeviceOrientation.LandscapeLeft)
+                //                {
+                //                     affineTransform = CGAffineTransformRotate(affineTransform,CGFloat(M_PI_2));
+                //
+                //                }else if(UIDevice.currentDevice().orientation == UIDeviceOrientation.LandscapeRight){
+                //
+                //                    affineTransform = CGAffineTransformRotate(affineTransform, CGFloat(-M_PI_2));
+                //                }
+                
+                setAffineTransform(affineTransform)
+                
+                setNeedsDisplay()
+            }
         }
     }
     
@@ -54,8 +66,12 @@ class OMLayer: CALayer {
         self.needsDisplayOnBoundsChange = true;
         
         // DEBUG
-        //        self.borderColor = UIColor.yellowColor().CGColor!
-        //        self.borderWidth = 1
+        //self.borderColor = UIColor.yellowColor().CGColor!
+        //self.borderWidth = 1
+        
+        
+        // Disable animating view refreshes
+        //self.actions = ["contents" as NSString : NSNull()]
     }
     
     
@@ -79,7 +95,7 @@ class OMLayer: CALayer {
     }
     
     
-    func animateKeyPath(keyPath : String, fromValue : Double, toValue:Double, beginTime:NSTimeInterval,duration:NSTimeInterval, delegate:AnyObject?)
+    func animateKeyPath(keyPath : String, fromValue : Double, toValue:Double, beginTime:NSTimeInterval, duration:NSTimeInterval, delegate:AnyObject?)
     {
         let animation = CABasicAnimation(keyPath:keyPath);
         
@@ -109,6 +125,9 @@ class OMLayer: CALayer {
         self.setValue(toValue,forKey:keyPath)
     }
     
+    override func drawInContext(ctx: CGContext!) {
+        super.drawInContext(ctx)
+    }
     //DEBUG
     override func display() {
         super.display()

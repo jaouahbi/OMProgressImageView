@@ -25,20 +25,48 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var myView:OMProgressImageView?
+    @IBOutlet weak var progressH:OMProgressImageView?
+    @IBOutlet weak var progressV:OMProgressImageView?
+    @IBOutlet weak var progressR:OMProgressImageView?
+    @IBOutlet weak var progressC:OMProgressImageView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let image:UIImage = UIImage(named: "1")!
         
-        myView?.type = OMProgressType.OMCircular
-        myView?.image = image;
+        progressH?.type            = .Horizontal
+        progressH?.image           = image;
+        progressH?.backgroundColor = UIColor.blackColor()
+        progressH?.grayScale       = false
+        progressH?.showing         = true
+        
+        progressV?.type            = .Vertical
+        progressV?.image           = image;
+        progressV?.backgroundColor = UIColor.clearColor()
+        progressV?.grayScale       = false
+        progressV?.showing         = false
+        
+        progressR?.type            = .Radial
+        progressR?.image           = image;
+        progressR?.backgroundColor = UIColor.blueColor()
+        progressR?.grayScale       = false
+        progressR?.showing         = false
+        
+        progressC?.type            = .Circular
+        progressC?.image           = image;
+        progressC?.backgroundColor = UIColor.grayColor()
+        progressC?.grayScale       = false
+        progressC?.showing         = true
         
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC))
         
         dispatch_after(time, dispatch_get_main_queue()) {
-            self.myView?.setProgress(1.0, animate: true)
+     
+            self.progressH?.setProgress(1.0, animate: true)
+            self.progressV?.setProgress(1.0, animate: true)
+            self.progressR?.setProgress(1.0, animate: true)
+            self.progressC?.setProgress(1.0, animate: true)
         }
         
     }

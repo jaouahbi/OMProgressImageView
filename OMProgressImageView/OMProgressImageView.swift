@@ -15,23 +15,55 @@
 //
 
 //
-//  OMProgressImageView.swift
+//  OMProgressImageView.swift   
 //
 //  Created by Jorge Ouahbi on 27/3/15.
 //
 
 import UIKit
 
-class OMProgressImageView: UIView
+class OMProgressImageView : UIView
 {
     override class func layerClass() -> AnyClass{
         return OMProgressImageLayer.self
     }
     
-    var type:OMProgressType  = OMProgressType.OMVertical
+    var type:OMProgressType  = .Vertical {
+        didSet {
+            let theLayer  = self.layer as! OMProgressImageLayer
+            theLayer.type = type
+        }
+    }
+    
+    var progress:Double = 0
     {
         didSet {
-            (self.layer as! OMProgressImageLayer).type = type
+            let theLayer = self.layer as! OMProgressImageLayer
+            
+            // clamp(0,1)
+            
+            theLayer.progress = min(abs(progress),1.0)
+        }
+    }
+    
+    var grayScale:Bool = true {
+        didSet {
+            let theLayer = self.layer as! OMProgressImageLayer
+            theLayer.grayScale = grayScale
+        }
+    }
+    
+    var clockwise:Bool = true {
+        didSet {
+            let theLayer = self.layer as! OMProgressImageLayer
+            theLayer.clockwise = clockwise
+        }
+    }
+    
+    var showing:Bool = true {
+        didSet {
+            let theLayer = self.layer as! OMProgressImageLayer
+            theLayer.showing = showing
         }
     }
     
@@ -41,12 +73,14 @@ class OMProgressImageView: UIView
     {
         let theLayer = self.layer as! OMProgressImageLayer
         
-        if(animate) {
+        let clamped = min(abs(progress),1.0)
+        
+        if ( animate ) {
             
-            theLayer.animateProgress(0, toValue: progress, beginTime: 0, duration: duration, delegate: nil)
+            theLayer.animateProgress(0, toValue: clamped, beginTime: 0, duration: duration, delegate: nil)
         }
         else {
-            theLayer.progress = progress
+            theLayer.progress = clamped
         }
     }
     
@@ -54,13 +88,15 @@ class OMProgressImageView: UIView
     {
         didSet {
         
+            let theLayer = self.layer as! OMProgressImageLayer
+            
             self.layoutIfNeeded()
     
             let newImage = image?.resizedImage(self.bounds.size,interpolationQuality: kCGInterpolationDefault)
             
             println("new image : \(newImage)")
             
-            (self.layer as! OMProgressImageLayer).image = newImage
+            theLayer.image = newImage
         }
     }
 }

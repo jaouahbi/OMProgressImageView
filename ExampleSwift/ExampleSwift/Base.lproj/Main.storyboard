@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7515.2" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6724" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7512"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="OMProgressImageView" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ExampleSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,21 +16,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tf0-xA-byp" customClass="OMProgressImageView" customModule="OMProgressImageView" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tf0-xA-byp" customClass="OMProgressImageView" customModule="ExampleSwift" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mag-w0-Hlu" customClass="OMProgressImageView" customModule="ExampleSwift" customModuleProvider="target">
+                                <rect key="frame" x="300" y="0.0" width="300" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2GL-dz-M1m" customClass="OMProgressImageView" customModule="ExampleSwift" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="300" width="300" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fV4-MW-Lyj" customClass="OMProgressImageView" customModule="ExampleSwift" customModuleProvider="target">
+                                <rect key="frame" x="300" y="300" width="300" height="300"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="tf0-xA-byp" secondAttribute="trailing" id="Ib6-mk-bNG"/>
-                            <constraint firstItem="tf0-xA-byp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="MFc-mL-rSl"/>
-                            <constraint firstItem="tf0-xA-byp" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="Mb1-hE-bUP"/>
-                            <constraint firstItem="tf0-xA-byp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="eos-2S-tXh"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="fV4-MW-Lyj" secondAttribute="bottom" id="3Po-EJ-Wlh"/>
+                            <constraint firstItem="fV4-MW-Lyj" firstAttribute="leading" secondItem="2GL-dz-M1m" secondAttribute="trailing" id="64b-kf-9Aq"/>
+                            <constraint firstItem="2GL-dz-M1m" firstAttribute="top" secondItem="tf0-xA-byp" secondAttribute="bottom" id="6PL-kK-k67"/>
+                            <constraint firstItem="mag-w0-Hlu" firstAttribute="leading" secondItem="tf0-xA-byp" secondAttribute="trailing" id="75v-Vp-6wM"/>
+                            <constraint firstItem="2GL-dz-M1m" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="8wC-h1-qbn"/>
+                            <constraint firstItem="mag-w0-Hlu" firstAttribute="height" secondItem="tf0-xA-byp" secondAttribute="height" id="Kxz-gE-czf"/>
+                            <constraint firstItem="mag-w0-Hlu" firstAttribute="width" secondItem="fV4-MW-Lyj" secondAttribute="width" id="MPO-p5-INk"/>
+                            <constraint firstItem="mag-w0-Hlu" firstAttribute="height" secondItem="fV4-MW-Lyj" secondAttribute="height" id="MSO-Xk-Z7Z"/>
+                            <constraint firstItem="tf0-xA-byp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Mlc-5D-H9u"/>
+                            <constraint firstAttribute="trailing" secondItem="mag-w0-Hlu" secondAttribute="trailing" id="PuU-dc-fgG"/>
+                            <constraint firstItem="mag-w0-Hlu" firstAttribute="width" secondItem="2GL-dz-M1m" secondAttribute="width" id="RjV-qV-xuY"/>
+                            <constraint firstAttribute="trailing" secondItem="fV4-MW-Lyj" secondAttribute="trailing" id="TcE-BY-5uz"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="2GL-dz-M1m" secondAttribute="bottom" id="bZ3-mu-DcP"/>
+                            <constraint firstItem="fV4-MW-Lyj" firstAttribute="top" secondItem="mag-w0-Hlu" secondAttribute="bottom" id="eeE-YL-1Uz"/>
+                            <constraint firstItem="mag-w0-Hlu" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="p4R-ek-3pB"/>
+                            <constraint firstItem="tf0-xA-byp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="wpY-M0-et6"/>
+                            <constraint firstItem="mag-w0-Hlu" firstAttribute="height" secondItem="2GL-dz-M1m" secondAttribute="height" id="xHe-kY-gKa"/>
+                            <constraint firstItem="mag-w0-Hlu" firstAttribute="width" secondItem="tf0-xA-byp" secondAttribute="width" id="xz2-Pv-ZYY"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="myView" destination="tf0-xA-byp" id="htX-zy-nU4"/>
+                        <outlet property="progressC" destination="tf0-xA-byp" id="nqv-9Q-sa8"/>
+                        <outlet property="progressH" destination="mag-w0-Hlu" id="KiL-qt-qf9"/>
+                        <outlet property="progressR" destination="2GL-dz-M1m" id="exW-eb-P96"/>
+                        <outlet property="progressV" destination="fV4-MW-Lyj" id="GpG-9F-Sce"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

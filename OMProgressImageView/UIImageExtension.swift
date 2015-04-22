@@ -20,14 +20,54 @@
 //
 //  Created by Jorge Ouahbi on 28/3/15.
 //
-//  0.1 Added alpha parameter to blendImage func (29-03-2015)
-//      Added grayScaleWithAlphaImage()
+//  0.1  Added alpha parameter to blendImage func (29-03-2015)
+//  0.11 Added addOutterShadow func (22-04-2015)
+//
 //
 
 import UIKit
 
+
+extension UIImage {
+    
+    
+    func addInnerShadow()
+    {
+        //TODO:
+    }
+    
+    func addOutterShadow(blurSize: CGFloat = 6.0) -> UIImage? {
+        
+        let bitmapInfo : CGBitmapInfo = CGBitmapInfo(CGImageAlphaInfo.PremultipliedLast.rawValue)
+        
+        let shadowContext : CGContextRef = CGBitmapContextCreate( nil,
+            Int(self.size.width * scale + blurSize),
+            Int(self.size.height * scale + blurSize),
+            CGImageGetBitsPerComponent(self.CGImage),
+            0,
+            CGImageGetColorSpace(self.CGImage),
+            bitmapInfo)
+        
+        CGContextSetShadowWithColor(shadowContext,
+            CGSize(width: blurSize*0.5,height: -blurSize*0.5),
+            blurSize*0.5,
+            UIColor.darkGrayColor().CGColor)
+        
+        CGContextDrawImage(shadowContext, CGRect(x: 0, y: blurSize, width: self.size.width * scale, height: self.size.height * scale), self.CGImage)
+        
+        return UIImage(CGImage: CGBitmapContextCreateImage(shadowContext), scale:scale, orientation: imageOrientation)
+    }
+}
+
+
 extension UIImage
 {
+    
+    func resize( newSize:CGSize ) -> UIImage
+    {
+        return resizedImage(newSize, interpolationQuality: kCGInterpolationDefault )
+    }
+    
     func rotatedImage(rads:CGFloat) -> UIImage
     {
         // Create the bitmap context
@@ -88,24 +128,7 @@ extension UIImage
         return newImage
     }
     
-    func grayScaleImage() -> UIImage {
-        let imageRect = CGRectMake(0, 0, self.size.width, self.size.height);
-        let colorSpace = CGColorSpaceCreateDeviceGray();
-        
-        let width = UInt(self.size.width)
-        let height = UInt(self.size.height)
-        let context = CGBitmapContextCreate(nil, width, height, 8, 0, colorSpace, .allZeros);
-        
-        CGContextClearRect(context, imageRect)
-        
-        CGContextDrawImage(context, imageRect, self.CGImage!);
-        
-        let imageRef = CGBitmapContextCreateImage(context);
-        
-        return UIImage(CGImage: imageRef)!
-    }
-    
-    func maskImage(path:UIBezierPath ) -> UIImage
+    func maskImage(path:UIBezierPath) -> UIImage
     {
         UIGraphicsBeginImageContextWithOptions(self.size, false, 0)
         
@@ -173,8 +196,8 @@ extension UIImage
         
         // Build a context that's the same dimensions as the new size
         let bitmap = CGBitmapContextCreate(nil,
-            UInt(newRect.size.width),
-            UInt(newRect.size.height),
+            Int(newRect.size.width),
+            Int(newRect.size.height),
             CGImageGetBitsPerComponent(imageRef),
             0,
             CGImageGetColorSpace(imageRef),

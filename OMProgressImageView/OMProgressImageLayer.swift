@@ -38,13 +38,14 @@
 
 public enum OMProgressType : Int
 {
-    case OMHorizontal
-    case OMVertical
-    case OMCircular
-    case OMRadial
+    case Horizontal
+    case Vertical
+    case Circular
+    case Radial
 }
 
-private struct OMProgressImageLayerProperties {
+private struct OMProgressImageLayerProperties
+{
     static var Progress = "progress"
 }
 
@@ -52,8 +53,8 @@ class OMProgressImageLayer: OMLayer
 {
     // progress showing image or hiding
     
-    var progressShowing:Bool = true
-        {
+    var showing:Bool = true
+    {
         didSet {
             setNeedsDisplay()
         }
@@ -62,19 +63,19 @@ class OMProgressImageLayer: OMLayer
     // progress direction
     
     var clockwise:Bool = true
-        {
+    {
         didSet {
             setNeedsDisplay()
         }
     }
     var image:UIImage?       = nil
-        {
+    {
         didSet {
             setNeedsDisplay()
         }
     }
     var progress: Double     = 0.0
-        {
+    {
         didSet {
             setNeedsDisplay()
         }
@@ -83,23 +84,23 @@ class OMProgressImageLayer: OMLayer
     // -90 degrees
     
     var beginRadians: Double = -M_PI_2
-        {
+    {
         didSet {
-            if(self.type == .OMCircular) {
+            if(self.type == .Circular) {
                 setNeedsDisplay()
             }
         }
     }
     
-    var type:OMProgressType  = OMProgressType.OMCircular
-        {
+    var type:OMProgressType  = .Circular
+    {
         didSet {
             setNeedsDisplay()
         }
     }
     
     var grayScale:Bool = true
-        {
+    {
         didSet {
             setNeedsDisplay()
         }
@@ -134,7 +135,7 @@ class OMProgressImageLayer: OMLayer
             self.type            = other.type
             self.beginRadians    = other.beginRadians
             self.grayScale       = other.grayScale
-            self.progressShowing = other.progressShowing
+            self.showing         = other.showing
             self.clockwise       = other.clockwise
         }
     }
@@ -164,9 +165,9 @@ class OMProgressImageLayer: OMLayer
     }
     
     
-    private func prepareForDrawInContext() -> UIImage?
+    private func imageForDrawInContext() -> UIImage?
     {
-        var newImage:UIImage? = nil
+        var newImage:UIImage? = nil // self.image
         var newProgress:Double = self.progress
         
         if let presentationLayer: AnyObject = self.presentationLayer(){
@@ -177,7 +178,7 @@ class OMProgressImageLayer: OMLayer
         {
             switch(self.type)
             {
-            case .OMRadial:
+            case .Radial:
                 
                 let radius = image!.size.max() * CGFloat(newProgress)
                 
@@ -196,7 +197,7 @@ class OMProgressImageLayer: OMLayer
                 break
                 
                 
-            case .OMCircular:
+            case .Circular:
                 
                 let radius = image!.size.max()
                 
@@ -216,7 +217,7 @@ class OMProgressImageLayer: OMLayer
                     radius: radius ,
                     startAngle: CGFloat(startAngle),
                     endAngle: CGFloat(endAngle),
-                    clockwise: self.progressShowing)
+                    clockwise: self.showing)
                 
                 path.addLineToPoint(center)
                 path.closePath()
@@ -225,7 +226,7 @@ class OMProgressImageLayer: OMLayer
                 
                 break;
                 
-            case .OMVertical:
+            case .Vertical:
                 
                 let newHeight = Double(self.bounds.size.height) * newProgress
                 
@@ -234,7 +235,7 @@ class OMProgressImageLayer: OMLayer
                 newImage = self.image!.maskImage(path)
                 break;
                 
-            case .OMHorizontal:
+            case .Horizontal:
                 
                 let newWidth = Double(self.bounds.size.width) * newProgress
                 
@@ -251,10 +252,9 @@ class OMProgressImageLayer: OMLayer
     
     override func drawInContext(context: CGContext!) {
         
-   
         // Image setup
         
-        let newImage = self.prepareForDrawInContext()
+        let newImage = self.imageForDrawInContext()
         
         // Core Text Coordinate System and Core Graphics are OSX style
         
@@ -265,6 +265,7 @@ class OMProgressImageLayer: OMLayer
             let rect = CGRectMake(0, 0, newImage!.size.width, newImage!.size.height);
             
             if ( grayScale ){
+                // original image grayscaled + original image blend
                 CGContextDrawImage(context, rect, self.image?.grayScaleWithAlphaImage().blendImage(newImage!).CGImage)
             }else{
                 CGContextDrawImage(context, rect, newImage!.CGImage)
