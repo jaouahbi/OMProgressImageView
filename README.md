@@ -1,12 +1,12 @@
 # OMProgressImageView
 
-Custom image progress view in Swift.
+Custom image progress view with diferents progressions in Swift'.
 
 [![Build Status](https://travis-ci.org/jaouahbi/OMProgressImageView.svg?branch=master)](https://travis-ci.org/jaouahbi/OMProgressImageView)
 
 ## Features
 
-- [x] 
+- [x] Horizontal, vertical and circular progression.
 
 ## Requirements
 
