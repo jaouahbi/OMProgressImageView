@@ -92,9 +92,9 @@ class OMProgressImageView : UIView
             
             self.layoutIfNeeded()
     
-            let newImage = image?.resizedImage(self.bounds.size,interpolationQuality: kCGInterpolationDefault)
+            let newImage = image?.resizedImage(self.bounds.size,interpolationQuality: CGInterpolationQuality.Default)
             
-            println("new image : \(newImage)")
+            print("new image : \(newImage)")
             
             theLayer.image = newImage
         }

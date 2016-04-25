@@ -41,7 +41,7 @@ class OMLayer: CALayer {
             
             if(angleOrientation != 0.0) {
                 
-                var affineTransform = CGAffineTransformMakeRotation(CGFloat(angleOrientation))
+                let affineTransform = CGAffineTransformMakeRotation(CGFloat(angleOrientation))
                 
                 //                if(UIDevice.currentDevice().orientation == UIDeviceOrientation.LandscapeLeft)
                 //                {
@@ -75,11 +75,11 @@ class OMLayer: CALayer {
     }
     
     
-    override init!(layer: AnyObject!) {
+    override init(layer: AnyObject) {
         super.init(layer: layer)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
     
@@ -125,14 +125,14 @@ class OMLayer: CALayer {
         self.setValue(toValue,forKey:keyPath)
     }
     
-    override func drawInContext(ctx: CGContext!) {
+    override func drawInContext(ctx: CGContext) {
         super.drawInContext(ctx)
     }
     //DEBUG
     override func display() {
         super.display()
         if(self.bounds.isEmpty) {
-            println("WARNING: empty layer.")
+            print("WARNING: empty layer.")
         }
     }
 }

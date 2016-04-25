@@ -30,15 +30,13 @@ import UIKit
 
 extension UIImage {
     
-    
-    func addInnerShadow()
-    {
+    func addInnerShadow() {
         //TODO:
     }
     
     func addOutterShadow(blurSize: CGFloat = 6.0) -> UIImage? {
         
-        let bitmapInfo : CGBitmapInfo = CGBitmapInfo(CGImageAlphaInfo.PremultipliedLast.rawValue)
+        let bitmapInfo : CGBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue)
         
         let shadowContext : CGContextRef = CGBitmapContextCreate( nil,
             Int(self.size.width * scale + blurSize),
@@ -46,7 +44,7 @@ extension UIImage {
             CGImageGetBitsPerComponent(self.CGImage),
             0,
             CGImageGetColorSpace(self.CGImage),
-            bitmapInfo)
+            bitmapInfo.rawValue)!
         
         CGContextSetShadowWithColor(shadowContext,
             CGSize(width: blurSize*0.5,height: -blurSize*0.5),
@@ -55,7 +53,7 @@ extension UIImage {
         
         CGContextDrawImage(shadowContext, CGRect(x: 0, y: blurSize, width: self.size.width * scale, height: self.size.height * scale), self.CGImage)
         
-        return UIImage(CGImage: CGBitmapContextCreateImage(shadowContext), scale:scale, orientation: imageOrientation)
+        return UIImage(CGImage: CGBitmapContextCreateImage(shadowContext)!, scale:scale, orientation: imageOrientation)
     }
 }
 
@@ -63,13 +61,11 @@ extension UIImage {
 extension UIImage
 {
     
-    func resize( newSize:CGSize ) -> UIImage
-    {
-        return resizedImage(newSize, interpolationQuality: kCGInterpolationDefault )
+    func resize( newSize:CGSize ) -> UIImage {
+        return resizedImage(newSize, interpolationQuality: CGInterpolationQuality.Default )
     }
     
-    func rotatedImage(rads:CGFloat) -> UIImage
-    {
+    func rotatedImage(rads:CGFloat) -> UIImage {
         // Create the bitmap context
         UIGraphicsBeginImageContextWithOptions(self.size,false,scale);
         
@@ -105,10 +101,10 @@ extension UIImage
         CGContextFillRect(ctx, imageRect);
         
         // Draw the luminosity on top of the white background to get grayscale
-        self.drawInRect(imageRect,blendMode:kCGBlendModeLuminosity,alpha:1.0);
+        self.drawInRect(imageRect,blendMode:CGBlendMode.Luminosity,alpha:1.0);
         
         // Apply the source image's alpha
-        self.drawInRect(imageRect,blendMode:kCGBlendModeDestinationIn,alpha:1.0);
+        self.drawInRect(imageRect,blendMode:CGBlendMode.DestinationIn,alpha:1.0);
         
         let grayscaleImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -120,7 +116,7 @@ extension UIImage
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale);
         
         self.drawAtPoint(CGPointZero)
-        other.drawAtPoint(CGPointZero, blendMode:kCGBlendModeNormal, alpha:alpha)
+        other.drawAtPoint(CGPointZero, blendMode:CGBlendMode.Normal, alpha:alpha)
         
         let newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -201,7 +197,7 @@ extension UIImage
             CGImageGetBitsPerComponent(imageRef),
             0,
             CGImageGetColorSpace(imageRef),
-            CGImageGetBitmapInfo(imageRef));
+            CGImageGetBitmapInfo(imageRef).rawValue);
         
         // Rotate and/or flip the image if required by its orientation
         CGContextConcatCTM(bitmap, transform);
@@ -215,12 +211,11 @@ extension UIImage
         // Get the resized image from the context and a UIImage
         let newImageRef = CGBitmapContextCreateImage(bitmap);
         
-        return UIImage(CGImage:newImageRef)!
+        return UIImage(CGImage:newImageRef!)
     }
     
     
-    func resizedImage(newSize:CGSize,interpolationQuality:CGInterpolationQuality ) -> UIImage!
-    {
+    func resizedImage(newSize:CGSize,interpolationQuality:CGInterpolationQuality ) -> UIImage! {
         var drawTransposed:Bool;
         
         switch (self.imageOrientation) {
