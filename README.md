@@ -31,5 +31,4 @@ OMProgressImageView is owned and maintained by the [Jorge Ouahbi](https://twitte
 
 OMProgressImageView is released under the APACHE 2.0 license. See LICENSE for details.
 
-![](https://github.com/jaouahbi/OMProgressImageView/blob/master/ScreenShot/ScreenShot_1.png)
-![](https://github.com/jaouahbi/OMProgressImageView/blob/master/ScreenShot/ScreenShot_2.png)
+![](https://github.com/jaouahbi/OMProgressImageView/blob/master/ScreenShot/ScreenShot.png)
