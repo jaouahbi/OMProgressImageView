@@ -1,6 +1,6 @@
 # OMProgressImageView
 
-Custom image progress view with diferents progressions in Swift'.
+Custom image progress view with differents progressions in Swift'.
 
 [![Build Status](https://travis-ci.org/jaouahbi/OMProgressImageView.svg?branch=master)](https://travis-ci.org/jaouahbi/OMProgressImageView)
 
@@ -20,6 +20,10 @@ Open a issue.
 ## Installation
 
 > To use OMProgressImageView with a project , you must include all Swift files located inside the `OMProgressImageView` directory directly in your project.
+
+## CocoaPods Installation
+
+> Add pod 'OMProgressImageView' to your Podfile
 
 * * *
 
