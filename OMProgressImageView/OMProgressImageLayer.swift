@@ -36,25 +36,22 @@
 #endif
 
 
-public enum OMProgressType : Int
-{
+public enum OMProgressType : Int {
     case Horizontal
     case Vertical
     case Circular
     case Radial
 }
 
-private struct OMProgressImageLayerProperties
-{
+private struct OMProgressImageLayerProperties {
     static var Progress = "progress"
 }
 
-class OMProgressImageLayer: OMLayer
+class OMProgressImageLayer: CALayer
 {
     // progress showing image or hiding
     
-    var showing:Bool = true
-    {
+    var showing:Bool = true {
         didSet {
             setNeedsDisplay()
         }
@@ -62,29 +59,24 @@ class OMProgressImageLayer: OMLayer
     
     // progress direction
     
-    var clockwise:Bool = true
-    {
+    var clockwise:Bool = true {
         didSet {
             setNeedsDisplay()
         }
     }
-    var image:UIImage?       = nil
-    {
+    var image:UIImage? = nil {
         didSet {
             setNeedsDisplay()
         }
     }
-    var progress: Double     = 0.0
-    {
+    var progress: Double     = 0.0 {
         didSet {
             setNeedsDisplay()
         }
     }
     
     // -90 degrees
-    
-    var beginRadians: Double = -M_PI_2
-    {
+    var beginRadians: Double = -M_PI_2 {
         didSet {
             if(self.type == .Circular) {
                 setNeedsDisplay()
@@ -92,8 +84,7 @@ class OMProgressImageLayer: OMLayer
         }
     }
     
-    var type:OMProgressType  = .Circular
-    {
+    var type:OMProgressType  = .Circular {
         didSet {
             setNeedsDisplay()
         }
@@ -107,8 +98,7 @@ class OMProgressImageLayer: OMLayer
     }
     
     
-    func animateProgress(fromValue:Double,toValue:Double,beginTime:NSTimeInterval,duration:NSTimeInterval, delegate:AnyObject?)
-    {
+    func animateProgress(fromValue:Double,toValue:Double,beginTime:NSTimeInterval,duration:NSTimeInterval, delegate:AnyObject?) {
         self.animateKeyPath(OMProgressImageLayerProperties.Progress,
             fromValue:fromValue,
             toValue:toValue,
@@ -117,7 +107,6 @@ class OMProgressImageLayer: OMLayer
             delegate:delegate)
     }
     
-    
     override init(){
         super.init()
     }
@@ -125,6 +114,10 @@ class OMProgressImageLayer: OMLayer
     convenience init(image:UIImage){
         self.init()
         self.image = image
+        
+        self.contentsScale = UIScreen.mainScreen().scale
+        self.needsDisplayOnBoundsChange = true;
+        
     }
     
     override init(layer: AnyObject) {
@@ -144,16 +137,14 @@ class OMProgressImageLayer: OMLayer
         super.init(coder:aDecoder)
     }
     
-    override class func needsDisplayForKey(event: String) -> Bool
-    {
+    override class func needsDisplayForKey(event: String) -> Bool {
         if(event == OMProgressImageLayerProperties.Progress){
             return true
         }
         return super.needsDisplayForKey(event)
     }
     
-    override func actionForKey(event: String) -> CAAction?
-    {
+    override func actionForKey(event: String) -> CAAction? {
         if(event == OMProgressImageLayerProperties.Progress){
             let animation = CABasicAnimation(keyPath: event)
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
@@ -165,8 +156,8 @@ class OMProgressImageLayer: OMLayer
     }
     
     
-    private func imageForDrawInContext() -> UIImage?
-    {
+    private func imageForDrawInContext() -> UIImage? {
+        
         var newImage:UIImage? = nil // self.image
         var newProgress:Double = self.progress
         
@@ -174,8 +165,8 @@ class OMProgressImageLayer: OMLayer
             newProgress = presentationLayer.progress
         }
         
-        if(newProgress > 0)
-        {
+        if (newProgress > 0) {
+            
             switch(self.type)
             {
             case .Radial:
@@ -246,29 +237,32 @@ class OMProgressImageLayer: OMLayer
                 break;
             }
         }
-        
         return newImage
     }
     
     override func drawInContext(context: CGContext) {
         
         // Image setup
-        
         let newImage = self.imageForDrawInContext()
         
         // Core Text Coordinate System and Core Graphics are OSX style
         
-        self.flipContextIfNeed(context)
+        #if os(iOS)
+            CGContextTranslateCTM(context, 0, self.bounds.size.height);
+            CGContextScaleCTM(context, 1.0, -1.0);
+        #endif
         
-        if(newImage != nil) {
+        if let newImage = newImage {
             
-            let rect = CGRectMake(0, 0, newImage!.size.width, newImage!.size.height);
+            let rect = CGRectMake(0, 0, newImage.size.width, newImage.size.height);
             
             if ( grayScale ){
                 // original image grayscaled + original image blend
-                CGContextDrawImage(context, rect, self.image?.grayScaleWithAlphaImage().blendImage(newImage!).CGImage)
-            }else{
-                CGContextDrawImage(context, rect, newImage!.CGImage)
+                if let image = self.image {
+                    CGContextDrawImage(context, rect, image.grayScaleWithAlphaImage().blendImage(newImage).CGImage)
+                }
+            } else {
+                CGContextDrawImage(context, rect, newImage.CGImage)
             }
         }
         

@@ -76,10 +76,8 @@ class OMProgressImageView : UIView
         let clamped = min(abs(progress),1.0)
         
         if ( animate ) {
-            
             theLayer.animateProgress(0, toValue: clamped, beginTime: 0, duration: duration, delegate: nil)
-        }
-        else {
+        } else {
             theLayer.progress = clamped
         }
     }

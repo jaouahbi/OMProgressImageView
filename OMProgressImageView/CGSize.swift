@@ -16,7 +16,7 @@
 
 
 //
-//  CGSizeExtension.swift
+//  CGSize.swift
 //
 //  Created by Jorge Ouahbi on 4/2/15.
 //
@@ -29,7 +29,7 @@ import QuartzCore
 extension CGSize
 {
     func min() -> CGFloat
-    {
+                                                              {
         return Swift.min(height,width);
     }
     
