@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		35338C511AC7F9C600D332D9 /* CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35338C501AC7F9C600D332D9 /* CGSize.swift */; };
+		3579D0161CD64991005A45D6 /* CALayer+AnimationKeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3579D0151CD64991005A45D6 /* CALayer+AnimationKeyPath.swift */; };
 		35AF2D7B1AC74E1B002D7E67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AF2D7A1AC74E1B002D7E67 /* AppDelegate.swift */; };
 		35AF2D7D1AC74E1B002D7E67 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AF2D7C1AC74E1B002D7E67 /* ViewController.swift */; };
 		35AF2D801AC74E1B002D7E67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35AF2D7E1AC74E1B002D7E67 /* Main.storyboard */; };
 		35AF2D821AC74E1B002D7E67 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35AF2D811AC74E1B002D7E67 /* Images.xcassets */; };
 		35AF2D911AC74E1C002D7E67 /* ExampleSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AF2D901AC74E1C002D7E67 /* ExampleSwiftTests.swift */; };
-		35AF2D9F1AC74E60002D7E67 /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AF2D9B1AC74E60002D7E67 /* CALayer.swift */; };
 		35AF2DA01AC74E60002D7E67 /* OMProgressImageLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AF2D9C1AC74E60002D7E67 /* OMProgressImageLayer.swift */; };
 		35AF2DA11AC74E60002D7E67 /* OMProgressImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AF2D9D1AC74E60002D7E67 /* OMProgressImageView.swift */; };
 		35AF2DA21AC74E60002D7E67 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AF2D9E1AC74E60002D7E67 /* UIImage.swift */; };
@@ -31,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		35338C501AC7F9C600D332D9 /* CGSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGSize.swift; sourceTree = "<group>"; };
+		3579D0151CD64991005A45D6 /* CALayer+AnimationKeyPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+AnimationKeyPath.swift"; sourceTree = "<group>"; };
 		35AF2D751AC74E1B002D7E67 /* ExampleSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35AF2D791AC74E1B002D7E67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35AF2D7A1AC74E1B002D7E67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -40,7 +41,6 @@
 		35AF2D8A1AC74E1C002D7E67 /* ExampleSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		35AF2D8F1AC74E1C002D7E67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35AF2D901AC74E1C002D7E67 /* ExampleSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleSwiftTests.swift; sourceTree = "<group>"; };
-		35AF2D9B1AC74E60002D7E67 /* CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		35AF2D9C1AC74E60002D7E67 /* OMProgressImageLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OMProgressImageLayer.swift; sourceTree = "<group>"; };
 		35AF2D9D1AC74E60002D7E67 /* OMProgressImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OMProgressImageView.swift; sourceTree = "<group>"; };
 		35AF2D9E1AC74E60002D7E67 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -123,8 +123,8 @@
 		35AF2D9A1AC74E60002D7E67 /* OMProgressImageView */ = {
 			isa = PBXGroup;
 			children = (
+				3579D0151CD64991005A45D6 /* CALayer+AnimationKeyPath.swift */,
 				35338C501AC7F9C600D332D9 /* CGSize.swift */,
-				35AF2D9B1AC74E60002D7E67 /* CALayer.swift */,
 				35AF2D9C1AC74E60002D7E67 /* OMProgressImageLayer.swift */,
 				35AF2D9D1AC74E60002D7E67 /* OMProgressImageView.swift */,
 				35AF2D9E1AC74E60002D7E67 /* UIImage.swift */,
@@ -237,9 +237,9 @@
 				35AF2D7D1AC74E1B002D7E67 /* ViewController.swift in Sources */,
 				35AF2D7B1AC74E1B002D7E67 /* AppDelegate.swift in Sources */,
 				35338C511AC7F9C600D332D9 /* CGSize.swift in Sources */,
+				3579D0161CD64991005A45D6 /* CALayer+AnimationKeyPath.swift in Sources */,
 				35AF2DA11AC74E60002D7E67 /* OMProgressImageView.swift in Sources */,
 				35AF2DA01AC74E60002D7E67 /* OMProgressImageLayer.swift in Sources */,
-				35AF2D9F1AC74E60002D7E67 /* CALayer.swift in Sources */,
 				35AF2DA21AC74E60002D7E67 /* UIImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

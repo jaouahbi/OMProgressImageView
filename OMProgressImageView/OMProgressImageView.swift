@@ -67,14 +67,12 @@ class OMProgressImageView : UIView
         }
     }
     
-    var duration:CFTimeInterval = 10.0
+    var duration:CFTimeInterval = 5.0
     
     func setProgress(progress:Double, animate:Bool)
     {
         let theLayer = self.layer as! OMProgressImageLayer
-        
         let clamped = min(abs(progress),1.0)
-        
         if ( animate ) {
             theLayer.animateProgress(0, toValue: clamped, beginTime: 0, duration: duration, delegate: nil)
         } else {
@@ -87,12 +85,10 @@ class OMProgressImageView : UIView
         didSet {
         
             let theLayer = self.layer as! OMProgressImageLayer
-            
             self.layoutIfNeeded()
-    
             let newImage = image?.resizedImage(self.bounds.size,interpolationQuality: CGInterpolationQuality.Default)
             
-            print("new image : \(newImage)")
+            //print("new image : \(newImage)")
             
             theLayer.image = newImage
         }
